@@ -1,10 +1,23 @@
-import { Button } from "@/components/ui/button"
+// import { Button } from "@/components/ui/button"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Route, Routes } from "react-router-dom"
+import Header from "./components/Header"
+import Home from "./pages/Home"
+import Compiler from "./pages/Compiler"
+import Notfound from "./pages/Notfound"
 
 function App() {
   return (
-    <div>
-      <Button variant="link">Click me</Button>
-    </div>
+    <>
+     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home/>}></Route>
+        <Route path="/compiler" element={<Compiler/>}/>
+        <Route path="*" element={<Notfound/>} />
+      </Routes>
+    </ThemeProvider>
+    </>
   )
 }
 

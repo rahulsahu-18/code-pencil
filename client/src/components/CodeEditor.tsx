@@ -2,21 +2,26 @@ import React from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { tags as t } from '@lezer/highlight';
 import { draculaInit } from '@uiw/codemirror-theme-dracula';
-import { loadLanguage, langNames, langs } from '@uiw/codemirror-extensions-langs';
-import { javascript } from "@codemirror/lang-javascript";
+import { loadLanguage, langNames } from '@uiw/codemirror-extensions-langs';
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
+import { updateCodeValue } from "@/redux/slice/compilerSlice";
+
+// import { javascript } from "@codemirror/lang-javascript";
 
 function CodeEditor() {
+  const dispatch = useDispatch();
+  const currentLanguge = useSelector((state:RootState)=>state.compilerSlice.currentLanguge);
+  const fullCode = useSelector((state:RootState)=>state.compilerSlice.fullCode);
   console.log('langNames:', langNames);
-  const [value, setValue] = React.useState("console.log('hello world!');");
-  const onChange = React.useCallback((val: any) => {
-    console.log("val:", val);
-    setValue(val);
+  const onChange = React.useCallback((val: string) => {
+    dispatch(updateCodeValue(val));
   }, []);
   return (
     <CodeMirror
-      value={value}
+      value={fullCode[currentLanguge]}
       height="calc(100vh - 60px - 50px)"
-      extensions={[loadLanguage('css')!]}
+      extensions={[loadLanguage(currentLanguge)!]}
       onChange={onChange}
       theme={draculaInit({
         settings: {

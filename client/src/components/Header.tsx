@@ -11,6 +11,16 @@ function Header() {
          <Button variant="secondary" className="text-xl">Compiler</Button>
          </Link>
         </li>
+        <li>
+         <Link to='/login'>
+         <Button variant="blue" className="text-xl">Login</Button>
+         </Link>
+        </li>
+        <li>
+         <Link to='/register'>
+         <Button variant="blue" className="text-xl">Register</Button>
+         </Link>
+        </li>
        </ul>
     </nav>
   )

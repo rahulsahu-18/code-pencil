@@ -5,6 +5,8 @@ import Header from "./components/Header"
 import Home from "./pages/Home"
 import Compiler from "./pages/Compiler"
 import Notfound from "./pages/Notfound"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 function App() {
   return (
@@ -13,8 +15,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home/>}></Route>
-        <Route path="/compiler" element={<Compiler/>}/>
-        <Route path="/compiler/:url" element={<Compiler/>}/>
+        <Route path="/login" element={<Login/>}></Route>
+        <Route path="/register" element={<Register/>}></Route>
+        <Route path="/compiler/:url?" element={<Compiler/>}/>
         <Route path="*" element={<Notfound/>} />
       </Routes>
     </ThemeProvider>

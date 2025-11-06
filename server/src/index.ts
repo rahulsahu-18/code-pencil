@@ -3,6 +3,7 @@ import cors from "cors";
 import compileRouter from "./routes/compilerRoutes";
 import { config } from "dotenv";
 import connectDB from "./config/dbConnect";
+import userRoutes from "./routes/userRoutes";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,6 +20,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello from TypeScript Server 🚀");
 });
 app.use("/compile", compileRouter);
+app.use("/auth", userRoutes);
 
 const PORT = process.env.PORT || 4000;
 

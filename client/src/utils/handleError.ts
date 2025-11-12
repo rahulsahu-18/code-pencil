@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 
-export const handleError = (error:unknown) => {
+export const handleError = (error:any) => {
     if (error instanceof AxiosError) {
     const message =
       error.response?.data?.message ||
@@ -10,8 +10,7 @@ export const handleError = (error:unknown) => {
     toast.error(message);
     console.error(message);
     return;
-  }
+    }
+    toast.error(error.data.message);
 
-    toast.error("Unexpected error occurred");
-  console.error(error);
 };

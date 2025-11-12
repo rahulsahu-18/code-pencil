@@ -1,17 +1,27 @@
 import { Request, Response } from "express";
 import { codeModel } from "../models/codeSchema";
 import mongoose from "mongoose";
+import { fullCodeType } from "../types/compilerTypes";
 
 const saveCode = async (req: Request, res: Response) => {
   const body = req.body || {};
-  const { fullCode } = body as { fullCode?: string };
-
+  const { fullCode } = body as { fullCode?: fullCodeType };
   if (!fullCode) {
     return res
       .status(400)
       .json({
         success: false,
         message: "fullCode is required in request body",
+      });
+  }
+
+  if(!fullCode.html && !fullCode.css && !fullCode.javascript)
+  {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: "code cannot be blank !!",
       });
   }
 
@@ -56,8 +66,7 @@ const loadCode = async (req: Request, res: Response) => {
     console.error("Error while loading code:", error);
     return res.status(500).json({
       success: false,
-      message: "Failed while loading code",
-      status: "unsaved",
+      message: "Your code was not found",
     });
   }
 };

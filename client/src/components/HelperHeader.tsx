@@ -16,7 +16,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentLanguge } from "@/redux/slice/compilerSlice";
 import type { RootState } from "@/redux/store";
@@ -26,6 +25,7 @@ import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useSaveCodeMutation } from "@/redux/slice/api";
 function HelperHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,26 +36,18 @@ function HelperHeader() {
   const defaultValue = useSelector(
     (state: RootState) => state.compilerSlice.currentLanguge
   );
+  const [saveCode, { isLoading, isSuccess, data }] = useSaveCodeMutation();
 
-  const [loader, setLoader] = useState<boolean>(false);
   const [shareBtn, setShareBtn] = useState<boolean>(false);
-
   const handleSaveCode = async () => {
-    setLoader(true);
     try {
-      const response = await axios.post(
-        "http://localhost:5000/compile/saveCode",
-        {
-          fullCode,
-        }
-      );
-      console.log(response.data);
-      navigate(`/compiler/${response.data.url}`);
+    const response = await saveCode(fullCode).unwrap();
+    console.log(response)
+      navigate(`/compiler/${response.url}`);
       toast.success("code saved successfully");
     } catch (e) {
+      console.log("at catch block")
       handleError(e);
-    } finally {
-      setLoader(false);
     }
   };
 
@@ -69,10 +61,10 @@ function HelperHeader() {
         <Button
           onClick={handleSaveCode}
           variant="success"
-          disabled={loader}
+          disabled={isLoading}
           className="cursor-pointer flex justify-center items-center"
         >
-          {loader ? (
+          {isLoading ? (
             <div className="flex gap-2 items-center justify-center">
               saving... <Loader className="animate-spin" />
             </div>

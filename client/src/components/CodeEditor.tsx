@@ -2,7 +2,7 @@ import React from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { tags as t } from '@lezer/highlight';
 import { draculaInit } from '@uiw/codemirror-theme-dracula';
-import { loadLanguage, langNames } from '@uiw/codemirror-extensions-langs';
+import { loadLanguage } from '@uiw/codemirror-extensions-langs';
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import { updateCodeValue } from "@/redux/slice/compilerSlice";
@@ -13,7 +13,6 @@ function CodeEditor() {
   const dispatch = useDispatch();
   const currentLanguge = useSelector((state:RootState)=>state.compilerSlice.currentLanguge);
   const fullCode = useSelector((state:RootState)=>state.compilerSlice.fullCode);
-  console.log('langNames:', langNames);
   const onChange = React.useCallback((val: string) => {
     dispatch(updateCodeValue(val));
   }, []);

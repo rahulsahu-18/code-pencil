@@ -1,4 +1,4 @@
-import { Copy, Loader, Save, Share2 } from "lucide-react";
+import { Copy, Download, Loader, Save, Share2 } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Select,
@@ -26,6 +26,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useSaveCodeMutation } from "@/redux/slice/api";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
+
 function HelperHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,6 +36,23 @@ function HelperHeader() {
   const fullCode = useSelector(
     (state: RootState) => state.compilerSlice.fullCode
   );
+
+  async function downloadCode() {
+    if (!fullCode.html && !fullCode.css && !fullCode.js) {
+      toast.error("code should not be empty !!!");
+      return;
+    }
+    const zip = new JSZip();
+
+    zip.file("index.html", fullCode.html);
+    zip.file("style.css", fullCode.css);
+    zip.file("script.js", fullCode.js);
+
+    const content = await zip.generateAsync({ type: "blob" });
+
+    saveAs(content, "my_code.zip");
+  }
+
   const defaultValue = useSelector(
     (state: RootState) => state.compilerSlice.currentLanguge
   );
@@ -41,12 +61,12 @@ function HelperHeader() {
   const [shareBtn, setShareBtn] = useState<boolean>(false);
   const handleSaveCode = async () => {
     try {
-    const response = await saveCode(fullCode).unwrap();
-    console.log(response)
+      const response = await saveCode(fullCode).unwrap();
+      console.log(response);
       navigate(`/compiler/${response.url}`);
       toast.success("code saved successfully");
     } catch (e) {
-      console.log("at catch block")
+      console.log("at catch block");
       handleError(e);
     }
   };
@@ -77,7 +97,7 @@ function HelperHeader() {
         {shareBtn && (
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="cursor-pointer">
                 {" "}
                 <Share2 /> Share
               </Button>
@@ -120,6 +140,13 @@ function HelperHeader() {
             </DialogContent>
           </Dialog>
         )}
+        <Button
+          className="cursor-pointer"
+          onClick={downloadCode}
+          variant="destructive"
+        >
+          <Download />
+        </Button>
       </div>
       <div className="_tab_switcher flex justify-center items-center gap-3">
         <small>Current Languge</small>

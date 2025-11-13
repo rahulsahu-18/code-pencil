@@ -4,11 +4,13 @@ import compileRouter from "./routes/compilerRoutes";
 import { config } from "dotenv";
 import connectDB from "./config/dbConnect";
 import userRoutes from "./routes/userRoutes";
+import cookieParser from 'cookie-parser'
 
 config();
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(

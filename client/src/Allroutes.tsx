@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Compiler from "./pages/Compiler";
 import Notfound from "./pages/Notfound";
 import Loader from "./loader/Loder";
+import Mycode from "./pages/Mycode";
 
 function Allroutes() {
   return (
@@ -21,6 +22,7 @@ function Allroutes() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/compiler/:url?" element={<Compiler />} />
+        <Route path="my-code" element={<Mycode />}/>
         <Route path="*" element={<Notfound />} />
       </Routes>
     </Suspense>

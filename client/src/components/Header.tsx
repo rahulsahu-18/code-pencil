@@ -10,7 +10,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function Header() {
   const [logout] = useLogoutMutation();
-  const currentUser = useSelector((state:RootState)=>state.userSlice.currentUser);
+  const currentUser = useSelector(
+    (state: RootState) => state.userSlice.currentUser
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(
@@ -34,25 +36,18 @@ function Header() {
         CODE PENCIL
       </Link>
       <ul className="flex gap-2">
-        <li>
-          <Link to="/compiler">
-            <Button variant="secondary" className="text-xl">
-              Compiler
-            </Button>
-          </Link>
-        </li>
         {!isLoggedIn ? (
           <>
             <li>
               <Link to="/login">
-                <Button variant="blue" className="text-xl">
+                <Button variant="blue" className="text-xl cursor-pointer">
                   Login
                 </Button>
               </Link>
             </li>
             <li>
               <Link to="/register">
-                <Button variant="blue" className="text-xl">
+                <Button variant="blue" className="text-xl cursor-pointer">
                   Register
                 </Button>
               </Link>
@@ -61,9 +56,23 @@ function Header() {
         ) : (
           <>
             <li>
+              <Link to="/compiler">
+                <Button variant="secondary" className="text-xl cursor-pointer">
+                  Compiler
+                </Button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/my-code">
+                <Button className="text-lg cursor-pointer" variant="blue">
+                  My codes
+                </Button>
+              </Link>
+            </li>
+            <li>
               <Button
                 variant="destructive"
-                className="text-xl"
+                className="text-xl cursor-pointer"
                 onClick={handleLogOut}
               >
                 Logout
@@ -73,7 +82,9 @@ function Header() {
             <li>
               <Avatar>
                 <AvatarImage src={currentUser.picture} />
-                <AvatarFallback>{currentUser.userName?.slice(0,2)}</AvatarFallback>
+                <AvatarFallback>
+                  {currentUser.userName?.slice(0, 2)}
+                </AvatarFallback>
               </Avatar>
             </li>
           </>

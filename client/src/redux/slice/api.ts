@@ -35,18 +35,21 @@ const api = createApi({
         credentials: "include",
       }),
     }),
-     register:builder.mutation<userInfoTypes,registerCradentialType>({
-       query:(body)=>({
-        url:"/auth/register",
-        method:"POST",
-        body:body,
-       })
-     }),
+    register: builder.mutation<userInfoTypes, registerCradentialType>({
+      query: (body) => ({
+        url: "/auth/register",
+        method: "POST",
+        body: body,
+      }),
+    }),
     logout: builder.mutation<void, void>({
       query: () => ({
         url: "/auth/logout",
         method: "POST",
       }),
+    }),
+    getUserDetails: builder.query<userInfoTypes, void>({
+      query: () => ({ url: "/auth/userInfo", cache: "no-store" }),
     }),
   }),
 });
@@ -57,5 +60,6 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
+  useGetUserDetailsQuery,
 } = api;
 export default api;

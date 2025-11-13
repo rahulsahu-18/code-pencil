@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 // import { AuthRequest } from "../middlewares/verifyToken";
 import { User } from "../models/userSchema";
+import { AuthRequest } from "../middleware/verifyToken";
 
 interface SignupBody {
   username: string;
@@ -143,4 +144,22 @@ export const logout = async (req: Request, res: Response) => {
   }
 };
 
+export const userDetials = async (req: AuthRequest, res: Response) => {
+  const userId = req._id;
+
+  try {
+    const user = await User.findById(userId);
+    if(!user)
+      res.status(500).json({message:"user not found"});
+
+    res.status(200).send({
+      username: user.username,
+      picture: user.picture,
+      email: user.email,
+      savedCodes: user.savedCodes,
+    });
+  } catch (error) {
+    res.status(500).json({message:"cannot fetch user Detials"});
+  }
+}
 

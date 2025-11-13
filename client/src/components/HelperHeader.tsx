@@ -56,7 +56,7 @@ function HelperHeader() {
   const defaultValue = useSelector(
     (state: RootState) => state.compilerSlice.currentLanguge
   );
-  const [saveCode, { isLoading, isSuccess, data }] = useSaveCodeMutation();
+  const [saveCode, { isLoading }] = useSaveCodeMutation();
 
   const [shareBtn, setShareBtn] = useState<boolean>(false);
   const handleSaveCode = async () => {

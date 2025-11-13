@@ -1,6 +1,5 @@
 import CodeEditor from "@/components/CodeEditor";
 import HelperHeader from "@/components/HelperHeader";
-import Loading from "@/components/Loading";
 import RenderCode from "@/components/RenderCode";
 import {
   ResizableHandle,
@@ -10,7 +9,6 @@ import {
 import { useLoadCodeMutation } from "@/redux/slice/api";
 import { updatedCode } from "@/redux/slice/compilerSlice";
 import { handleError } from "@/utils/handleError";
-import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";

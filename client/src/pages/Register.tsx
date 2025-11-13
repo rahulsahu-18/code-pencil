@@ -11,6 +11,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRegisterMutation } from "@/redux/slice/api";
+import { handleError } from "@/utils/handleError";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { updateCurrentUser, updateIsLoggedIn } from "@/redux/slice/userSlice";
 
 const formSchema = z.object({
   username: z.string(),
@@ -26,15 +31,28 @@ function Register() {
       password: "",
     },
   });
-  function handleRegister(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [register] = useRegisterMutation();
+  async function handleRegister(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await register(values).unwrap();
+      dispatch(updateCurrentUser(response));
+      dispatch(updateIsLoggedIn(true));
+      navigate("/");
+    } catch (error) {
+      handleError(error);
+      console.log(error);
+    }
   }
   return (
     <div className="__login grid-style w-full h-[calc(100dvh-60px)] flex justify-center items-center flex-col gap-3">
       <div className="__form_container border-[3px] h-full sm:h-fit bg-black border-[1px] py-8 px-4 flex flex-col gap-5 w-full sm:w-[300px]">
         <div className="flex flex-col gap-3 font-mono">
           <h1 className="text-4xl font-bold text-left">User Register</h1>
-          <p className="font-mono text-xs">Join the community of expert frontend developers🧑‍💻.</p>
+          <p className="font-mono text-xs">
+            Join the community of expert frontend developers🧑‍💻.
+          </p>
         </div>
         <Form {...form}>
           <form
@@ -47,7 +65,7 @@ function Register() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="email or username" {...field} />
+                    <Input placeholder="username" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -59,7 +77,7 @@ function Register() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="email or username" {...field} />
+                    <Input placeholder="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

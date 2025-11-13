@@ -11,12 +11,21 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useLoginMutation } from '@/redux/slice/api'
+import { handleError } from '@/utils/handleError'
+import { toast } from 'sonner'
+import { useDispatch } from 'react-redux'
+import { updateCurrentUser, updateIsLoggedIn } from '@/redux/slice/userSlice'
+import { useNavigate } from 'react-router-dom'
+import { Loader } from 'lucide-react'
  
 const formSchema = z.object({
   userId: z.string(),
   password:z.string(),
 })
 function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -24,9 +33,17 @@ function Login() {
       password:"",
     },
   })
-
-   function handleLogin(values: z.infer<typeof formSchema>) {
-    console.log(values)
+   const [login,{isLoading}] = useLoginMutation();
+  async function handleLogin(values: z.infer<typeof formSchema>) {
+    try {
+     const response = await login(values).unwrap();
+      dispatch(updateCurrentUser(response));
+      dispatch(updateIsLoggedIn(true));
+      navigate('/')
+      toast.success("user loged in successfully");
+    } catch (error) {
+      handleError(error)
+    }
   }
   return (
     <div className="__login grid-style w-full h-[calc(100dvh-60px)] flex justify-center items-center flex-col gap-3">
@@ -40,6 +57,7 @@ function Login() {
         <FormField
           control={form.control}
           name="userId"
+          disabled={isLoading}
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -52,6 +70,7 @@ function Login() {
         <FormField
           control={form.control}
           name="password"
+          disabled={isLoading}
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -61,7 +80,7 @@ function Login() {
             </FormItem>
           )}
         />
-        <Button className='w-full cursor-pointer' type="submit">Submit</Button>
+        <Button disabled={isLoading} className='w-full cursor-pointer flex items-center gap-2 justify-center' type="submit">{isLoading ? <Loader /> : null}Submit</Button>
       </form>
     </Form>
 

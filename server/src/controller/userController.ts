@@ -148,18 +148,23 @@ export const userDetials = async (req: AuthRequest, res: Response) => {
   const userId = req._id;
 
   try {
-    const user = await User.findById(userId);
-    if(!user)
-      res.status(500).json({message:"user not found"});
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized: missing user id" });
+    }
 
-    res.status(200).send({
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).send({
       username: user.username,
       picture: user.picture,
       email: user.email,
       savedCodes: user.savedCodes,
     });
   } catch (error) {
-    res.status(500).json({message:"cannot fetch user Detials"});
+    return res.status(500).json({ message: "Cannot fetch user details", error });
   }
 }
 

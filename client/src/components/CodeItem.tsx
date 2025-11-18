@@ -9,14 +9,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { useDeleteCodeMutation } from "@/redux/slice/api";
+import { handleError } from "@/utils/handleError";
+import { toast } from "sonner";
 // import { handleError } from "@/utils/handleError";
 // import { useDeleteCodeMutation } from "@/redux/slices/api";
 
 
 function CodeItem({data}:{data:codeType}) {
     const deleteBtn = true;
-    function handleDelete()
+   const [delData,{isLoading}] = useDeleteCodeMutation();
+   async function handleDelete()
     {
+      try {
+        const response = await delData(data._id!).unwrap();
+        console.log(response)
+        toast.success("your code deleted successfully");
+      } catch (error) {
+        handleError(error);
+      }
 
     }
   return (
@@ -52,7 +63,7 @@ function CodeItem({data}:{data:codeType}) {
                     variant="destructive"
                     className="cursor-pointer"
                     onClick={handleDelete}
-                    loading={true}
+                    loading={isLoading}
                   >
                     Confirm Delete
                   </Button>

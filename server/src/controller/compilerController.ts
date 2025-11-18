@@ -113,5 +113,47 @@ const myCodes = async (req: AuthRequest, res: Response) => {
   }
 };
 
+const deleteCode = async (req: AuthRequest, res: Response) => {
+  const userId = req._id;
+  const { id } = req.params;
 
-export { saveCode, loadCode, myCodes };
+  try {
+    const owner = await User.findById(userId);
+    if (!owner) {
+      return res.status(401).json({ success: false, message: "Unauthorized user!" });
+    }
+
+    const existingCode = await codeModel.findById(id);
+    if (!existingCode) {
+      return res.status(404).json({ success: false, message: "Code not found!" });
+    }
+
+    // 1. Delete code
+    const deleteOne = await codeModel.findByIdAndDelete(id);
+
+    if (!deleteOne) {
+      return res.status(500).json({
+        success: false,
+        message: "Internal server error while deleting the code",
+      });
+    }
+
+     owner.savedCodes.pull(id)
+    await owner.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Code deleted successfully",
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error while erasing code!",
+      error,
+    });
+  }
+};
+
+
+export { saveCode, loadCode, myCodes, deleteCode };

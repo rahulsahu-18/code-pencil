@@ -5,7 +5,7 @@ interface IUserSchema {
   email: string;
   password: string;
   picture: string;
-  savedCodes: Array<mongoose.Types.ObjectId>;
+  savedCodes: mongoose.Types.Array<mongoose.Types.ObjectId>;
 }
 
 const UserSchema = new mongoose.Schema<IUserSchema>(

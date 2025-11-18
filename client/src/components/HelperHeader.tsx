@@ -59,7 +59,7 @@ function HelperHeader() {
   const [saveCode, { isLoading }] = useSaveCodeMutation();
 
   const [shareBtn, setShareBtn] = useState<boolean>(false);
-  const [title, setTitleValue] = useState<string>("");
+  const [title, setTitleValue] = useState<string>("mycode");
 
   const handleSaveCode = async () => {
     const body = {fullCode,title};
@@ -129,7 +129,7 @@ function HelperHeader() {
                   <Button type="button" variant="success">
                     Close
                   </Button>
-                  <Button variant="destructive" onClick={handleSaveCode}>
+                  <Button className="cursor-pointer" disabled={title.length === 0} variant="destructive" onClick={handleSaveCode}>
                     <Save size={16} /> save
                   </Button>
                 </div>

@@ -10,7 +10,7 @@ function Mycode() {
     }
   return data.length ? (
     <div className="p-3 grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-3">
-      {data.map((item:codeType)=> <CodeItem data={item}/>)}
+      {data.map((item:codeType)=> <CodeItem key={item._id} data={item}/>)}
     </div>
   ) : (
     <>

@@ -22,26 +22,26 @@ export const signup = async (req: Request, res: Response) => {
 
   try {
     if (!username || !email || !password) {
-      return res.status(400).send({ message: "Missing required fields" });
+      return res.status(400).json({ message: "Missing required fields" });
     }
 
     if (!usernameRegex.test(username)) {
       return res
         .status(400)
-        .send({ message: "Some characters are not allowed!" });
+        .json({ message: "Some characters are not allowed!" });
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
         .status(400)
-        .send({ message: "User already exists with same email!" });
+        .json({ message: "User already exists with same email!" });
     }
     const existingUserbyUsername = await User.findOne({ username });
     if (existingUserbyUsername) {
       return res
         .status(400)
-        .send({ message: "username alredy exist with same username" });
+        .json({ message: "username alredy exist with same username" });
     }
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -69,7 +69,7 @@ export const signup = async (req: Request, res: Response) => {
       sameSite: "lax",
     });
 
-    return res.status(201).send({
+    return res.status(201).json({
       username: user.username,
       picture: user.picture,
       email: user.email,
@@ -85,7 +85,7 @@ export const login = async (req: Request, res: Response) => {
 
   try {
     if (!userId || !password) {
-      return res.status(400).send({ message: "Missing credentials" });
+      return res.status(400).json({ message: "Missing credentials" });
     }
 
     const existingUser = userId.includes("@")
@@ -93,12 +93,12 @@ export const login = async (req: Request, res: Response) => {
       : await User.findOne({ username: userId });
 
     if (!existingUser) {
-      return res.status(400).send({ message: "User not found" });
+      return res.status(400).json({ message: "User not found" });
     }
 
     const passwordMatched = await bcrypt.compare(password, existingUser.password);
     if (!passwordMatched) {
-      return res.status(400).send({ message: "Wrong password" });
+      return res.status(400).json({ message: "Wrong password" });
     }
 
     if (!process.env.JWT_KEY) {
@@ -121,7 +121,7 @@ export const login = async (req: Request, res: Response) => {
       sameSite: "lax",
     });
 
-    return res.status(200).send({
+    return res.status(200).json({
       username: existingUser.username,
       picture: existingUser.picture,
       email: existingUser.email,

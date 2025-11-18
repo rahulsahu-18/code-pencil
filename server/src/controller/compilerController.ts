@@ -2,44 +2,65 @@ import { Request, Response } from "express";
 import { codeModel } from "../models/codeSchema";
 import mongoose from "mongoose";
 import { fullCodeType } from "../types/compilerTypes";
+import { AuthRequest } from "../middleware/verifyToken";
+import { User } from "../models/userSchema";
 
-const saveCode = async (req: Request, res: Response) => {
+const saveCode = async (req: AuthRequest, res: Response) => {
   const body = req.body || {};
-  const { fullCode } = body as { fullCode?: fullCodeType };
+  const { fullCode, title } = body as {
+    fullCode?: fullCodeType;
+    title: string;
+  };
   if (!fullCode) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: "fullCode is required in request body",
-      });
+    return res.status(400).json({
+      success: false,
+      message: "fullCode is required in request body",
+    });
   }
 
-  if(!fullCode.html && !fullCode.css && !fullCode.javascript)
-  {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: "code cannot be blank !!",
-      });
+  const htmlTrimmed = fullCode.html?.trim() || "";
+  const cssTrimmed = fullCode.css?.trim() || "";
+  const jsTrimmed = fullCode.javascript?.trim() || "";
+
+  if (!htmlTrimmed && !cssTrimmed && !jsTrimmed) {
+    return res.status(400).json({
+      success: false,
+      message: "code cannot be blank !!",
+    });
   }
 
+  fullCode.html = htmlTrimmed;
+  fullCode.css = cssTrimmed;
+  fullCode.javascript = jsTrimmed;
+  let user = undefined;
+  if (req._id) {
+    user = await User.findById(req._id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found!" });
+    }
+  }
   try {
     const newCode = await codeModel.create({
       fullCode: fullCode,
+      title: title,
+      ownerInfo: req._id,
+      ownerName: user?.username,
     });
+    if (user) {
+      user?.savedCodes.push(newCode._id);
+      await user?.save();
+    }
     return res
       .status(200)
       .json({ success: true, url: newCode._id, status: "saved" });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "failed while save",
-        status: "unsaved",
-      });
+    return res.status(500).json({
+      success: false,
+      message: "failed while save",
+      status: "unsaved",
+    });
   }
 };
 
@@ -71,4 +92,26 @@ const loadCode = async (req: Request, res: Response) => {
   }
 };
 
-export { saveCode, loadCode };
+const myCodes = async (req: AuthRequest, res: Response) => {
+  const userId = req._id;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized: missing user id" });
+  }
+
+  try {
+    const user = await User.findById(userId).populate("savedCodes");
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "Cannot find User!" });
+    }
+
+    return res.status(200).json( user.savedCodes);
+  } catch (error) {
+    console.error("Error loading my codes:", error);
+    return res.status(500).json({ success: false, message: "Error loading my codes!", error });
+  }
+};
+
+
+export { saveCode, loadCode, myCodes };

@@ -59,9 +59,12 @@ function HelperHeader() {
   const [saveCode, { isLoading }] = useSaveCodeMutation();
 
   const [shareBtn, setShareBtn] = useState<boolean>(false);
+  const [title, setTitleValue] = useState<string>("");
+
   const handleSaveCode = async () => {
+    const body = {fullCode,title};
     try {
-      const response = await saveCode(fullCode).unwrap();
+      const response = await saveCode(body).unwrap();
       console.log(response);
       navigate(`/compiler/${response.url}`);
       toast.success("code saved successfully");
@@ -78,7 +81,7 @@ function HelperHeader() {
   return (
     <div className="h-[50px] bg-black text-white p-2 flex justify-between items-center">
       <div className="flex gap-2">
-        <Button
+        {/* <Button
           onClick={handleSaveCode}
           variant="success"
           disabled={isLoading}
@@ -93,7 +96,47 @@ function HelperHeader() {
               <Save size={16} /> save
             </>
           )}
-        </Button>
+        </Button> */}
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="success" className="cursor-pointer">
+              {" "}
+              <Save size={16} /> save
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>
+                Ready to save your code? I’ll store it safely.
+              </DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+            <div className="flex items-center gap-2">
+              <div className="grid flex-1 gap-2">
+                <input
+                  value={title}
+                  onChange={(e) => setTitleValue(e.target.value)}
+                  type="text"
+                  className="w-full px-2 py-1 rounded-md text-xl"
+                  placeholder="Give a title to your code"
+                />
+              </div>
+            </div>
+            <DialogFooter className="sm:justify-start">
+              <DialogClose asChild>
+                <div className="flex w-full justify-between p-4">
+                  <Button type="button" variant="success">
+                    Close
+                  </Button>
+                  <Button variant="destructive" onClick={handleSaveCode}>
+                    <Save size={16} /> save
+                  </Button>
+                </div>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
         {shareBtn && (
           <Dialog>
             <DialogTrigger asChild>

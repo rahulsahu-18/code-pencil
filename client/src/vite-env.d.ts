@@ -16,3 +16,20 @@ interface registerCradentialType {
       email:string,
       password:string
 }
+
+interface saveBodyType {
+      fullCode:{
+            html:string,
+            css:string,
+            js:string
+      },
+      title:string
+}
+
+interface codeType {
+  fullCode?: CompilerSliceStateType["fullCode"];
+  title: string;
+  ownerInfo:string;
+  ownerName:string;
+  _id?: string;
+}

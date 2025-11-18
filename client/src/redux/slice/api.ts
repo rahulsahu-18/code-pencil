@@ -6,16 +6,17 @@ const api = createApi({
     baseUrl: "http://localhost:5000",
     credentials: "include",
   }),
+  tagTypes: ["myCodes"],
   endpoints: (builder) => ({
-    saveCode: builder.mutation<
-      { url: string; status: string },
-      initialStateType["fullCode"]
-    >({
-      query: (fullCode) => ({
-        url: "/compile/saveCode",
-        method: "POST",
-        body: { fullCode },
-      }),
+    saveCode: builder.mutation<{ url: string; status: string }, saveBodyType>({
+      query: (fullCode) => {
+        return {
+          url: "/compile/saveCode",
+          method: "POST",
+          body: fullCode,
+        };
+      },
+      invalidatesTags: ["myCodes"],
     }),
     loadCode: builder.mutation<
       { success: boolean; allCode: initialStateType["fullCode"] },
@@ -51,6 +52,10 @@ const api = createApi({
     getUserDetails: builder.query<userInfoTypes, void>({
       query: () => ({ url: "/auth/userInfo", cache: "no-store" }),
     }),
+    getMycode: builder.query<[codeType],void>({
+      query: () => ({ url: "/compile/my-codes" }),
+       providesTags: ["myCodes"],
+    }),
   }),
 });
 
@@ -61,5 +66,6 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useGetUserDetailsQuery,
+  useGetMycodeQuery,
 } = api;
 export default api;

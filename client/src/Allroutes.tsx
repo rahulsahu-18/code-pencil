@@ -20,9 +20,9 @@ function Allroutes() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/my-code" element={<Mycode />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/compiler/:url?" element={<Compiler />} />
-        <Route path="my-code" element={<Mycode />}/>
         <Route path="*" element={<Notfound />} />
       </Routes>
     </Suspense>

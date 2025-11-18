@@ -11,13 +11,14 @@ import { updatedCode } from "@/redux/slice/compilerSlice";
 import { handleError } from "@/utils/handleError";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Compiler() {
+  const navigate = useNavigate();
   const { url } = useParams();
   const dispatch = useDispatch();
 
-  const[loadCodefun,{isLoading}] = useLoadCodeMutation();
+  const[loadCodefun] = useLoadCodeMutation();
   const loadCode = async () => {
     if (!url) return;
     try {
@@ -25,6 +26,7 @@ function Compiler() {
       console.log(responce)
       dispatch(updatedCode(responce.allCode));
     } catch (error) {
+      navigate('/compiler');
       handleError(error);
     }
   };

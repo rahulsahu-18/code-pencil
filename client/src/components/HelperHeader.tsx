@@ -1,4 +1,4 @@
-import { Copy, Download, PencilLine, Save, Share2 } from "lucide-react";
+import { Copy, Download, Save, Share2 } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Select,

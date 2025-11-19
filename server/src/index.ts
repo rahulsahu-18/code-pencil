@@ -25,7 +25,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-app.options("*", cors());
+app.options("*", cors() as any);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello from TypeScript Server 🚀");
 });

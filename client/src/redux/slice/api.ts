@@ -3,7 +3,7 @@ import type { initialStateType } from "./compilerSlice";
 
 const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000",
+    baseUrl: "https://code-pencil-18.onrender.com",
     credentials: "include",
   }),
   tagTypes: ["myCodes"],

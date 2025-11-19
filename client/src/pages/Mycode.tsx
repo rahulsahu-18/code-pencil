@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 function Mycode() {
     const {data} = useGetMycodeQuery();
     if(!data){
-        return <>xx</>
+        return <div className="text-center font-mono text-slate-600 p-3">Not found...</div>
     }
   return data.length ? (
     <div className="p-3 grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-3">

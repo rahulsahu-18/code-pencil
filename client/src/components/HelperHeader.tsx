@@ -90,9 +90,9 @@ function HelperHeader() {
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="success" className="cursor-pointer">
-                    {" "}
-                    <Save size={16} />
-                  </Button>
+              {" "}
+              <Save size={16} />
+            </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
@@ -134,20 +134,10 @@ function HelperHeader() {
         {shareBtn && (
           <Dialog>
             <DialogTrigger asChild>
-              <TooltipProvider delayDuration={0}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" className="cursor-pointer">
-                      {" "}
-                      <Share2 />
-                    </Button>
-                  </TooltipTrigger>
-
-                  <TooltipContent className="bg-black text-white px-3 py-1 rounded-md shadow-lg text-sm border border-white/20">
-                    <p>share 🦈</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Button variant="outline" className="cursor-pointer">
+                {" "}
+                <Share2 />
+              </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
@@ -186,22 +176,6 @@ function HelperHeader() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-        )}
-        {shareBtn && (
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button className="cursor-pointer">
-                  <PencilLine size={15} />
-                  {/* edit */}
-                </Button>
-              </TooltipTrigger>
-
-              <TooltipContent className="bg-black text-white px-3 py-1 rounded-md shadow-lg text-sm border border-white/20">
-                <p>edit ✏️</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
         )}
         <TooltipProvider delayDuration={0}>
           <Tooltip>

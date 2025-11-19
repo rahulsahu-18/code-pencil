@@ -23,7 +23,8 @@ interface saveBodyType {
             css:string,
             js:string
       },
-      title:string
+      title:string,
+      url?:string | undefined
 }
 
 interface codeType {

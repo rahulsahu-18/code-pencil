@@ -118,3 +118,140 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
+@layer utilities {
+  /* Float */
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  /* Pop */
+  @keyframes pop {
+    0% { transform: scale(0.8); opacity: 0 }
+    100% { transform: scale(1); opacity: 1 }
+  }
+
+  /* Fade In */
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(15px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Glow Pulse */
+  @keyframes glow {
+    0% { box-shadow: 0 0 10px #3b82f6; }
+    50% { box-shadow: 0 0 20px #60a5fa; }
+    100% { box-shadow: 0 0 10px #3b82f6; }
+  }
+
+  /* Rotate Wiggle */
+  @keyframes wiggle {
+    0%, 100% { rotate: 0deg; }
+    50% { rotate: -8deg; }
+  }
+
+  /* Shine effect */
+  @keyframes shine {
+    0% { background-position: -200px; }
+    100% { background-position: 200px; }
+  }
+
+  .animate-float { animation: float 3s ease-in-out infinite; }
+  .animate-pop { animation: pop 0.7s ease forwards; }
+  .animate-fade { animation: fadeIn .8s ease forwards; }
+  .animate-glow { animation: glow 2s infinite; }
+  .animate-wiggle:hover { animation: wiggle .5s ease; }
+  .animate-shine { background-size: 200px; animation: shine 2s linear infinite; }
+}
+
+@layer utilities {
+  @keyframes waveGlow {
+    0% {
+      text-shadow: 0 0 5px #facc15, 0 0 10px #facc15;
+      transform: translateY(0px);
+    }
+    50% {
+      text-shadow: 0 0 15px #60a5fa, 0 0 25px #60a5fa;
+      transform: translateY(-4px);
+    }
+    100% {
+      text-shadow: 0 0 5px #facc15, 0 0 10px #facc15;
+      transform: translateY(0px);
+    }
+  }
+
+  .animate-wave-glow {
+    animation: waveGlow 2.5s ease-in-out infinite;
+  }
+}
+
+
+
+
+
+
+
+@layer utilities {
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0px); }
+  }
+
+  @keyframes typing {
+    0% { width: 0 }
+    100% { width: 100% }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.3); opacity: 0 }
+    100% { transform: scale(1); opacity: 1 }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-typing {
+    animation: typing 3.5s steps(40) infinite;
+  }
+
+  .animate-blink {
+    animation: blink .7s step-end infinite;
+  }
+
+  .animate-pop {
+    animation: pop 1s ease;
+  }
+}
+
+
+
+@layer utilities {
+  @keyframes waveSoft {
+    0% {
+      opacity: 0.85;
+      transform: translateY(0px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-3px);
+    }
+    100% {
+      opacity: 0.85;
+      transform: translateY(0px);
+    }
+  }
+
+  .animate-wave-soft {
+    animation: waveSoft 2.8s ease-in-out infinite;
+  }
+}

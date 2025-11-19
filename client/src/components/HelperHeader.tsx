@@ -1,4 +1,4 @@
-import { Copy, Download, Loader, Save, Share2 } from "lucide-react";
+import { Copy, Download, PencilLine, Save, Share2 } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Select,
@@ -28,6 +28,12 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useSaveCodeMutation } from "@/redux/slice/api";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@radix-ui/react-tooltip";
 
 function HelperHeader() {
   const dispatch = useDispatch();
@@ -58,11 +64,11 @@ function HelperHeader() {
   );
   const [saveCode, { isLoading }] = useSaveCodeMutation();
 
-  const [shareBtn, setShareBtn] = useState<boolean>(false);
+  const [shareBtn, setShareBtn] = useState<boolean>(true);
   const [title, setTitleValue] = useState<string>("mycode");
 
   const handleSaveCode = async () => {
-    const body = {fullCode,title};
+    const body = { fullCode, title, url };
     try {
       const response = await saveCode(body).unwrap();
       console.log(response);
@@ -81,29 +87,12 @@ function HelperHeader() {
   return (
     <div className="h-[50px] bg-black text-white p-2 flex justify-between items-center">
       <div className="flex gap-2">
-        {/* <Button
-          onClick={handleSaveCode}
-          variant="success"
-          disabled={isLoading}
-          className="cursor-pointer flex justify-center items-center"
-        >
-          {isLoading ? (
-            <div className="flex gap-2 items-center justify-center">
-              saving... <Loader className="animate-spin" />
-            </div>
-          ) : (
-            <>
-              <Save size={16} /> save
-            </>
-          )}
-        </Button> */}
-
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="success" className="cursor-pointer">
-              {" "}
-              <Save size={16} /> save
-            </Button>
+                    {" "}
+                    <Save size={16} />
+                  </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
@@ -129,8 +118,13 @@ function HelperHeader() {
                   <Button type="button" variant="success">
                     Close
                   </Button>
-                  <Button className="cursor-pointer" disabled={title.length === 0} variant="destructive" onClick={handleSaveCode}>
-                    <Save size={16} /> save
+                  <Button
+                    className="cursor-pointer"
+                    disabled={title.length === 0 || isLoading}
+                    variant="destructive"
+                    onClick={handleSaveCode}
+                  >
+                    <Save size={16} /> {isLoading ? "Saving..." : "save"}
                   </Button>
                 </div>
               </DialogClose>
@@ -140,10 +134,20 @@ function HelperHeader() {
         {shareBtn && (
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" className="cursor-pointer">
-                {" "}
-                <Share2 /> Share
-              </Button>
+              <TooltipProvider delayDuration={0}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" className="cursor-pointer">
+                      {" "}
+                      <Share2 />
+                    </Button>
+                  </TooltipTrigger>
+
+                  <TooltipContent className="bg-black text-white px-3 py-1 rounded-md shadow-lg text-sm border border-white/20">
+                    <p>share 🦈</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
@@ -183,13 +187,40 @@ function HelperHeader() {
             </DialogContent>
           </Dialog>
         )}
-        <Button
-          className="cursor-pointer"
-          onClick={downloadCode}
-          variant="destructive"
-        >
-          <Download />
-        </Button>
+        {shareBtn && (
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button className="cursor-pointer">
+                  <PencilLine size={15} />
+                  {/* edit */}
+                </Button>
+              </TooltipTrigger>
+
+              <TooltipContent className="bg-black text-white px-3 py-1 rounded-md shadow-lg text-sm border border-white/20">
+                <p>edit ✏️</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                className="cursor-pointer"
+                title={"download"}
+                onClick={downloadCode}
+                variant="destructive"
+              >
+                <Download />
+              </Button>
+            </TooltipTrigger>
+
+            <TooltipContent className="bg-black text-white px-3 py-1 rounded-md shadow-lg text-sm border border-white/20">
+              <p>download ⬇️</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
       <div className="_tab_switcher flex justify-center items-center gap-3">
         <small>Current Languge</small>

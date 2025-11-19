@@ -31,66 +31,84 @@ function Header() {
     }
   }
   return (
-    <nav className="w-full h-[60px] bg-gray-900 text-white p-3 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold select-none">
-        CODE PENCIL
-      </Link>
-      <ul className="flex gap-2">
-        {!isLoggedIn ? (
-          <>
-            <li>
-              <Link to="/login">
-                <Button variant="blue" className="text-xl cursor-pointer">
-                  Login
-                </Button>
-              </Link>
-            </li>
-            <li>
-              <Link to="/register">
-                <Button variant="blue" className="text-xl cursor-pointer">
-                  Register
-                </Button>
-              </Link>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <Link to="/compiler">
-                <Button variant="secondary" className="text-xl cursor-pointer">
-                  Compiler
-                </Button>
-              </Link>
-            </li>
-            <li>
-              <Link to="/my-code">
-                <Button className="text-lg cursor-pointer" variant="blue">
-                  My codes
-                </Button>
-              </Link>
-            </li>
-            <li>
-              <Button
-                variant="destructive"
-                className="text-xl cursor-pointer"
-                onClick={handleLogOut}
-              >
-                Logout
-              </Button>
-            </li>
+   <nav className="w-full h-[60px] bg-gray-900/70 backdrop-blur-md border-b border-white/10 text-white px-6 flex justify-between items-center shadow-md">
 
-            <li>
-              <Avatar>
-                <AvatarImage src={currentUser.picture} />
-                <AvatarFallback>
-                  {currentUser.userName?.slice(0, 2)}
-                </AvatarFallback>
-              </Avatar>
-            </li>
-          </>
-        )}
-      </ul>
-    </nav>
+  <Link to="/" className="text-xl font-extrabold tracking-wide select-none hover:text-yellow-300 transition">
+    CODE PENCIL
+  </Link>
+
+  <ul className="flex gap-3 items-center">
+    {!isLoggedIn ? (
+      <>
+        <li>
+          <Link to="/login">
+            <Button 
+              variant="blue" 
+              className="text-lg cursor-pointer px-5 py-2 shadow-sm hover:shadow-blue-500/40 transition-all"
+            >
+              Login
+            </Button>
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/register">
+            <Button 
+              variant="blue" 
+              className="text-lg cursor-pointer px-5 py-2 shadow-sm hover:shadow-blue-500/40 transition-all"
+            >
+              Register
+            </Button>
+          </Link>
+        </li>
+      </>
+    ) : (
+      <>
+        <li>
+          <Link to="/compiler">
+            <Button 
+              variant="secondary" 
+              className="text-lg cursor-pointer px-5 py-2 hover:bg-gray-700 transition"
+            >
+              Compiler
+            </Button>
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/my-code">
+            <Button 
+              className="text-lg cursor-pointer px-5 py-2 hover:shadow-yellow-500/40 transition"
+              variant="blue"
+            >
+              My Codes
+            </Button>
+          </Link>
+        </li>
+
+        <li>
+          <Button
+            variant="destructive"
+            className="text-lg cursor-pointer px-5 py-2 hover:shadow-red-500/30 transition"
+            onClick={handleLogOut}
+          >
+            Logout
+          </Button>
+        </li>
+
+        <li>
+          <Avatar className="ring-2 ring-yellow-400 hover:scale-105 transition cursor-pointer">
+            <AvatarImage src={currentUser.picture} />
+            <AvatarFallback className="font-semibold">
+              {currentUser.userName?.slice(0, 2)}
+            </AvatarFallback>
+          </Avatar>
+        </li>
+      </>
+    )}
+  </ul>
+</nav>
+
   );
 }
 

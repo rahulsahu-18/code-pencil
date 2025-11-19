@@ -10,7 +10,6 @@ import { updateCurrentUser, updateIsLoggedIn } from "./redux/slice/userSlice";
 function App() {
   const dispatch = useDispatch();
   const {data,error} = useGetUserDetailsQuery();
-
   useEffect(()=>{
     if(data)
     {

@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { useRegisterMutation } from "@/redux/slice/api";
 import { handleError } from "@/utils/handleError";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { updateCurrentUser, updateIsLoggedIn } from "@/redux/slice/userSlice";
 
 const formSchema = z.object({
@@ -99,11 +99,18 @@ function Register() {
                 </FormItem>
               )}
             />
-            <Button className="w-full cursor-pointer" type="submit">
+            <Button className="w-full cursor-pointer animate-glow" type="submit">
               Submit
             </Button>
           </form>
         </Form>
+         <small className="text-xs font-mono">
+          Already have an account?{" "}
+          <Link className=" text-blue-500" to="/login">
+            Login
+          </Link>
+          .
+        </small>
       </div>
     </div>
   );

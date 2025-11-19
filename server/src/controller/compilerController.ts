@@ -7,9 +7,10 @@ import { User } from "../models/userSchema";
 
 const saveCode = async (req: AuthRequest, res: Response) => {
   const body = req.body || {};
-  const { fullCode, title } = body as {
+  const { fullCode, title, url } = body as {
     fullCode?: fullCodeType;
-    title: string;
+    title: string,
+    url:string | undefined
   };
   if (!fullCode) {
     return res.status(400).json({
@@ -20,7 +21,7 @@ const saveCode = async (req: AuthRequest, res: Response) => {
 
   const htmlTrimmed = fullCode.html?.trim() || "";
   const cssTrimmed = fullCode.css?.trim() || "";
-  const jsTrimmed = fullCode.javascript?.trim() || "";
+  const jsTrimmed = fullCode.js?.trim() || "";
 
   if (!htmlTrimmed && !cssTrimmed && !jsTrimmed) {
     return res.status(400).json({
@@ -31,7 +32,7 @@ const saveCode = async (req: AuthRequest, res: Response) => {
 
   fullCode.html = htmlTrimmed;
   fullCode.css = cssTrimmed;
-  fullCode.javascript = jsTrimmed;
+  fullCode.js = jsTrimmed;
   let user = undefined;
   if (req._id) {
     user = await User.findById(req._id);
@@ -42,6 +43,19 @@ const saveCode = async (req: AuthRequest, res: Response) => {
     }
   }
   try {
+    if(url)
+    {
+      const existingCode = await codeModel.findById(url);
+      if (existingCode) {
+        existingCode.fullCode = fullCode;
+        existingCode.title = title;
+        await existingCode.save();
+        return res
+          .status(200)
+          .json({ success: true, url: url, status: "saved" });
+      }
+    }
+    
     const newCode = await codeModel.create({
       fullCode: fullCode,
       title: title,

@@ -4,7 +4,7 @@ import compileRouter from "./routes/compilerRoutes";
 import { config } from "dotenv";
 import connectDB from "./config/dbConnect";
 import userRoutes from "./routes/userRoutes";
-import cookieParser from 'cookie-parser'
+import cookieParser from "cookie-parser";
 
 config();
 
@@ -16,7 +16,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:5173", process.env.CLIENT_URL!],
+    origin: [
+      "http://localhost:5173",
+      "https://code-pencil-alpha.vercel.app/",
+      process.env.CLIENT_URL!,
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 

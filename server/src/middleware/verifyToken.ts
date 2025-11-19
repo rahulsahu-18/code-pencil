@@ -15,15 +15,19 @@ export const verifyToken = async (
   if (!token) {
     return res.status(401).send({ message: "You are unauthorized." });
   }
-  jwt.verify(
-    token,
-    process.env.JWT_KEY!,
-    (err: JsonWebTokenError | null, data: any) => {
-      if (err) {
-        return res.status(401).send({ message: "You are unauthorized." });
-      }
-      req._id = data._id;
-      next();
+  try {
+    const payload = jwt.verify(token, process.env.JWT_KEY as string) as
+      | jwt.JwtPayload
+      | { _id?: string; id?: string };
+    req._id = (payload as any)._id ?? (payload as any).id;
+
+    if (!req._id) {
+      return res.status(401).send({ message: "You are unauthorized." });
     }
-  );
+
+    next();
+    return;
+  } catch (err) {
+    return res.status(401).send({ message: "You are unauthorized." });
+  }
 };

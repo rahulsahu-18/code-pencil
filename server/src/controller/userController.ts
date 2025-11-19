@@ -63,11 +63,12 @@ export const signup = async (req: Request, res: Response) => {
     );
 
     res.cookie("token", jwtToken, {
-      path: "/",
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
-      httpOnly: true,
-      sameSite: "lax",
-    });
+  path: "/",
+  expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+  httpOnly: true,
+  sameSite: "none",
+  secure: true,
+});
 
     return res.status(201).json({
       username: user.username,
@@ -96,7 +97,10 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "User not found" });
     }
 
-    const passwordMatched = await bcrypt.compare(password, existingUser.password);
+    const passwordMatched = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
     if (!passwordMatched) {
       return res.status(400).json({ message: "Wrong password" });
     }
@@ -118,7 +122,8 @@ export const login = async (req: Request, res: Response) => {
       path: "/",
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none",
+      secure: true,
     });
 
     return res.status(200).json({
@@ -129,7 +134,9 @@ export const login = async (req: Request, res: Response) => {
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
-      return res.status(500).send({ message: "Error logging in!", error: error.message });
+      return res
+        .status(500)
+        .send({ message: "Error logging in!", error: error.message });
     }
     return res.status(500).send({ message: "Unexpected error!", error });
   }
@@ -164,7 +171,8 @@ export const userDetials = async (req: AuthRequest, res: Response) => {
       savedCodes: user.savedCodes,
     });
   } catch (error) {
-    return res.status(500).json({ message: "Cannot fetch user details", error });
+    return res
+      .status(500)
+      .json({ message: "Cannot fetch user details", error });
   }
-}
-
+};

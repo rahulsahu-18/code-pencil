@@ -2,23 +2,23 @@
 <p align="center"> <img src="https://img.shields.io/badge/Frontend-React%20%2B%20Vite-blue?style=for-the-badge" /> <img src="https://img.shields.io/badge/Backend-Node%20%2B%20Express-green?style=for-the-badge" /> <img src="https://img.shields.io/badge/Database-MongoDB-brightgreen?style=for-the-badge" /> <img src="https://img.shields.io/badge/Auth-JWT-orange?style=for-the-badge" /> <img src="https://img.shields.io/badge/Language-TypeScript-blueviolet?style=for-the-badge" /> </p> <p align="center"> <img src="https://img.shields.io/github/license/your-username/code-pencil?style=flat-square" /> <img src="https://img.shields.io/badge/Status-Active-success?style=flat-square" /> </p>
 ✨ Overview
 
-Code Pencil ek modern full-stack code editor app hai jisme aap:
+Code Pencil ek modern full-stack code editor whear you can:
 
-✏️ Live HTML/CSS/JS code likh sakte ho
+✏️write Live HTML/CSS/JS 
 
-💾 Snippets ko save kar sakte ho
+💾 you can save Snippets
 
-🔗 Short URL ke through share kar sakte ho
+🔗 you can shear your url
 
-⬇️ ZIP file ke form me download kar sakte ho
+⬇️ download your code in a ZIP file
 
-🗂️ Apne saare saved snippets dekh sakte ho
+🗂️ and you can warched your all code
 
-🧹 Delete ya Edit kar sakte ho
+🧹and you can delete or edit
 
-🔐 JWT cookie-based login/logout system use kar sakte ho
+🔐 JWT cookie-based login/logout system
 
-Backend MongoDB + JWT cookies handle karta hai, aur frontend React + Vite per bana hai.
+built with Backend:- Node, express, MongoDB + JWT cookies, and frontend:- React + Vite .
 
 🧰 Tech Stack
 Frontend
@@ -53,13 +53,12 @@ Hosting
 📌 Backend Setup
 cd server
 npm install
-npm run dev   # development
+npm run dev
 
 📌 Frontend Setup
 cd client
 npm install
 npm run dev   # http://localhost:5173
-npm run build
 
 🔑 Environment Variables
 Variable	Description

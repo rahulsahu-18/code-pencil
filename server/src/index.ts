@@ -9,23 +9,27 @@ import cookieParser from "cookie-parser";
 config();
 
 const app = express();
+
+// CORS configuration
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://code-pencil-alpha.vercel.app",
+  process.env.CLIENT_URL,
+].filter((origin): origin is string => Boolean(origin));
+
+const corsOptions = {
+  credentials: true,
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(
-  cors({
-    credentials: true,
-    origin: [
-      "http://localhost:5173",
-      "https://code-pencil-alpha.vercel.app/",
-      process.env.CLIENT_URL!,
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-app.options("*", cors() as any);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello from TypeScript Server 🚀");
 });

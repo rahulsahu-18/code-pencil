@@ -90,11 +90,4 @@ GET	/compile/my-codes	Fetch all user snippets
 DELETE	/compile/delete/:id	Delete snippet
 📦 Sample Payloads
 Save Code Example
-{
-  "fullCode": {
-    "html": "<h1>Hello</h1>",
-    "css": "body{background:#fff}",
-    "js": "console.log('Hi')"
-  },
-  "title": "My Snippet"
-}
+

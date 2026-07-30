@@ -9,7 +9,7 @@ function Mycode() {
         return <div className="text-center font-mono text-slate-600 p-3">Not found...</div>
     }
   return data.length ? (
-    <div className="p-3 grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-3">
+    <div className="p-4 sm:p-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {data.map((item:codeType)=> <CodeItem key={item._id} data={item}/>)}
     </div>
   ) : (

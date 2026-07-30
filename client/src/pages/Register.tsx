@@ -33,7 +33,7 @@ function Register() {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [register] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
   async function handleRegister(values: z.infer<typeof formSchema>) {
     try {
       const response = await register(values).unwrap();
@@ -99,7 +99,7 @@ function Register() {
                 </FormItem>
               )}
             />
-            <Button className="w-full cursor-pointer animate-glow" type="submit">
+            <Button loading={isLoading} className="w-full cursor-pointer animate-glow" type="submit">
               Submit
             </Button>
           </form>

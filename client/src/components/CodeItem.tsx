@@ -31,20 +31,22 @@ function CodeItem({data}:{data:codeType}) {
 
     }
   return (
-    <div className="p-3 rounded cursor-pointer bg-slate-900 flex justify-start items-center flex-col gap-3">
-      <div className="__top flex justify-start items-start gap-3 w-full">
-        <Code />
-        <p className="font-mono font-bold text-lg">{data.title}</p>
+    <div className="p-3 rounded-3xl bg-slate-900 flex flex-col gap-4 w-full">
+      <div className="__top flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between w-full">
+        <div className="flex items-center gap-3">
+          <Code />
+          <p className="font-mono font-bold text-lg break-words">{data.title}</p>
+        </div>
       </div>
       <Separator />
-      <div className="__btn_container flex gap-3">
-        <Link target="" to={`/compiler/${data._id}`}>
-          <Button className="cursor-pointer" variant="secondary">Open Code</Button>
+      <div className="__btn_container flex flex-col gap-3 sm:flex-row sm:items-center w-full">
+        <Link target="" to={`/compiler/${data._id}`} className="w-full sm:w-auto">
+          <Button className="w-full sm:w-auto" variant="secondary">Open Code</Button>
         </Link>
         {deleteBtn && (
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="destructive" className="cursor-pointer">
+              <Button variant="destructive" className="w-full sm:w-auto cursor-pointer">
                 Delete
               </Button>
             </DialogTrigger>

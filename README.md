@@ -1,93 +1,128 @@
-🎨 Code Pencil — Online HTML/CSS/JS Snippet Editor
-<p align="center"> <img src="https://img.shields.io/badge/Frontend-React%20%2B%20Vite-blue?style=for-the-badge" /> <img src="https://img.shields.io/badge/Backend-Node%20%2B%20Express-green?style=for-the-badge" /> <img src="https://img.shields.io/badge/Database-MongoDB-brightgreen?style=for-the-badge" /> <img src="https://img.shields.io/badge/Auth-JWT-orange?style=for-the-badge" /> <img src="https://img.shields.io/badge/Language-TypeScript-blueviolet?style=for-the-badge" /> </p> <p align="center"> <img src="https://img.shields.io/github/license/your-username/code-pencil?style=flat-square" /> <img src="https://img.shields.io/badge/Status-Active-success?style=flat-square" /> </p>
-✨ Overview
+# Code Pencil
 
-Code Pencil ek modern full-stack code editor whear you can:
+<p align="center"> <img src="https://img.shields.io/badge/Frontend-React%20%2B%20Vite-blue?style=for-the-badge" alt="React + Vite" /> <img src="https://img.shields.io/badge/Backend-Node%20%2B%20Express-green?style=for-the-badge" alt="Node + Express" /> <img src="https://img.shields.io/badge/Database-MongoDB-brightgreen?style=for-the-badge" alt="MongoDB" /> <img src="https://img.shields.io/badge/Auth-JWT-orange?style=for-the-badge" alt="JWT" /> <img src="https://img.shields.io/badge/Language-TypeScript-blueviolet?style=for-the-badge" alt="TypeScript" /> </p>
 
-✏️write Live HTML/CSS/JS 
+## Overview
 
-💾 you can save Snippets
+Code Pencil is a modern full-stack playground for building HTML/CSS/JS snippets. It lets users write code, compile instantly, save projects, share short URLs, download code as ZIP, and manage saved snippets through a secure authenticated flow.
 
-🔗 you can shear your url
+## Features
 
-⬇️ download your code in a ZIP file
+- Live HTML/CSS/JS editor with instant preview
+- Save and load saved code snippets
+- Share code using unique URLs
+- Download the project as a ZIP file
+- User registration and login with JWT cookie authentication
+- View, edit, and delete saved snippets
+- Responsive design for desktop and mobile
 
-🗂️ and you can warched your all code
+## Architecture
 
-🧹and you can delete or edit
+The app uses a clean client-server architecture:
 
-🔐 JWT cookie-based login/logout system
+- **Frontend:** React + Vite + TypeScript
+- **State:** Redux Toolkit + RTK Query
+- **Editor:** CodeMirror
+- **Styling:** Tailwind CSS
+- **Backend:** Node.js + Express + TypeScript
+- **Database:** MongoDB + Mongoose
+- **Auth:** JWT stored in secure HttpOnly cookies
 
-built with Backend:- Node, express, MongoDB + JWT cookies, and frontend:- React + Vite .
+### Project workflow
 
-🧰 Tech Stack
-Frontend
+1. **Landing & auth**
+   - User arrives on the home page
+   - Login/register to access saved snippets and protected features
+2. **Editor workflow**
+   - Write HTML, CSS, and JavaScript in the editor
+   - Switch language tabs to edit each file
+   - Preview the rendered output instantly in the preview pane
+3. **Saving & sharing**
+   - Save code using the save dialog
+   - The app returns a shareable short URL
+   - Open that URL later to reload the same snippet
+4. **Management**
+   - Browse saved snippets under “My Codes”
+   - Open any snippet in the editor
+   - Delete snippets when no longer needed
+5. **Download**
+   - Download the current project as a ZIP archive
 
-⚛️ React + TypeScript
+## Tech Stack
 
-📁 Vite
+### Frontend
 
-🧩 Redux Toolkit + RTK Query
+- React
+- Vite
+- TypeScript
+- Redux Toolkit
+- RTK Query
+- Tailwind CSS
+- CodeMirror
+- React Router
 
-🎨 TailwindCSS
+### Backend
 
-⌨️ CodeMirror Editor
+- Node.js
+- Express
+- TypeScript
+- MongoDB
+- Mongoose
+- JSON Web Tokens
+- Cookie Parser
 
-Backend
+## Local Setup
 
-🟩 Node.js + Express
+### Backend
 
-🍃 MongoDB + Mongoose
-
-🔐 JWT Cookie Auth
-
-🛠️ TypeScript
-
-Hosting
-
-▲ Frontend → Vercel
-
-✨ Backend → Render
-
-🚀 Local Setup
-📌 Backend Setup
+```bash
 cd server
 npm install
 npm run dev
+```
 
-📌 Frontend Setup
+### Frontend
+
+```bash
 cd client
 npm install
-npm run dev   # http://localhost:5173
+npm run dev
+```
 
-🔑 Environment Variables
-Variable	Description
-MONGODB_URI	MongoDB URL
-CLIENT_URL	Frontend deploy URL
-JWT_KEY	Secret for JWT
-PORT	Optional (default 4000)
+## Environment Variables
 
-Note: In production, cookies require:
+| Variable | Description |
+| --- | --- |
+| `MONGODB_URI` | MongoDB connection string |
+| `CLIENT_URL` | Frontend origin URL |
+| `JWT_KEY` | Secret used to sign JWTs |
+| `PORT` | Server port (default 4000) |
 
-sameSite: "none"
-secure: true
+> In production, if cookies are sent cross-site, set `sameSite: "none"` and `secure: true`.
 
+## API Routes
 
-So frontend must be HTTPS.
+### Auth Routes
 
-📡 API Routes
-🔐 AUTH ROUTES
-Method	Route	Purpose
-POST	/auth/register	Create new user
-POST	/auth/login	Login + sets HttpOnly cookie
-POST	/auth/logout	Clears cookie
-GET	/auth/userInfo	Get user + saved codes
-🗂️ SNIPPET ROUTES
-Method	Route	Purpose
-POST	/compile/saveCode	Save/update code snippet
-POST	/compile/loadCode	Load snippet using short URL
-GET	/compile/my-codes	Fetch all user snippets
-DELETE	/compile/delete/:id	Delete snippet
-📦 Sample Payloads
-Save Code Example
+| Method | Route | Purpose |
+| --- | --- | --- |
+| POST | `/auth/register` | Create a new user |
+| POST | `/auth/login` | Authenticate user and set cookie |
+| POST | `/auth/logout` | Clear authentication cookie |
+| GET | `/auth/userInfo` | Get current user and saved codes |
+
+### Snippet Routes
+
+| Method | Route | Purpose |
+| --- | --- | --- |
+| POST | `/compile/saveCode` | Save or update a snippet |
+| POST | `/compile/loadCode` | Load a snippet by share URL |
+| GET | `/compile/my-codes` | Fetch all saved snippets for user |
+| DELETE | `/compile/delete/:id` | Delete a saved snippet |
+
+## Notes
+
+- The frontend and backend communicate via secure cookie-based authentication.
+- The compiler preview pane is responsive and uses a fixed 30% width preview on desktop.
+- The app is designed to work well on both mobile and desktop devices.
 

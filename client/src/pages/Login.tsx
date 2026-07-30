@@ -17,7 +17,6 @@ import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { updateCurrentUser, updateIsLoggedIn } from "@/redux/slice/userSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { Loader } from "lucide-react";
 
 const formSchema = z.object({
   userId: z.string(),
@@ -88,11 +87,11 @@ function Login() {
               )}
             />
             <Button
-              disabled={isLoading}
+              loading={isLoading}
               className="w-full cursor-pointer flex items-center gap-2 justify-center animate-glow"
               type="submit"
             >
-              {isLoading ? <Loader /> : null} Submit
+              Submit
             </Button>
           </form>
         </Form>

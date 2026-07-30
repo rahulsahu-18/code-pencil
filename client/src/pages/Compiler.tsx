@@ -34,18 +34,21 @@ function Compiler() {
     loadCode();
   }, [url]);
   return (
-    <ResizablePanelGroup direction="horizontal">
+    <ResizablePanelGroup direction="horizontal" className="flex h-full w-full flex-col-reverse lg:flex-row">
       <ResizablePanel
-        defaultSize={50}
-        className="h-[calc(100dvh-60px)] min-w-[350px]"
+        defaultSize={70}
+        minSize={70}
+        className="min-h-0 w-full lg:h-[calc(100dvh-60px)]"
       >
         <HelperHeader />
         <CodeEditor />
       </ResizablePanel>
-      <ResizableHandle />
+      <ResizableHandle className="hidden lg:flex" />
       <ResizablePanel
-        defaultSize={50}
-        className="h-[calc(100dvh-60px)] min-w-[350px]"
+        defaultSize={30}
+        minSize={30}
+        maxSize={30}
+        className="min-h-0 w-full lg:h-[calc(100dvh-60px)]"
       >
         <RenderCode />
       </ResizablePanel>

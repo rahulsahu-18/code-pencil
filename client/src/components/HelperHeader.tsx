@@ -85,8 +85,8 @@ function HelperHeader() {
     else setShareBtn(true);
   }, [url]);
   return (
-    <div className="h-[50px] bg-black text-white p-2 flex justify-between items-center">
-      <div className="flex gap-2">
+    <div className="bg-black text-white p-3 sm:p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-wrap items-center gap-2">
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="success" className="cursor-pointer">
@@ -196,7 +196,7 @@ function HelperHeader() {
           </Tooltip>
         </TooltipProvider>
       </div>
-      <div className="_tab_switcher flex justify-center items-center gap-3">
+      <div className="_tab_switcher flex flex-col gap-3 sm:flex-row sm:items-center">
         <small>Current Languge</small>
         <Select
           defaultValue={defaultValue}
@@ -206,7 +206,7 @@ function HelperHeader() {
             )
           }
         >
-          <SelectTrigger className="w-[180px] ">
+          <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="HTML" />
           </SelectTrigger>
           <SelectContent>

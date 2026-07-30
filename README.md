@@ -123,6 +123,5 @@ npm run dev
 ## Notes
 
 - The frontend and backend communicate via secure cookie-based authentication.
-- The compiler preview pane is responsive and uses a fixed 30% width preview on desktop.
 - The app is designed to work well on both mobile and desktop devices.
 

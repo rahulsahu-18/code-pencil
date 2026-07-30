@@ -13,7 +13,7 @@ const app = express();
 // CORS configuration
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://code-pencil-alpha.vercel.app",
+  "https://code-pencil-gilt.vercel.app",
   process.env.CLIENT_URL,
 ].filter((origin): origin is string => Boolean(origin));
 

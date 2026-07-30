@@ -37,7 +37,7 @@ function Compiler() {
     <ResizablePanelGroup direction="horizontal" className="flex h-full w-full flex-col-reverse lg:flex-row">
       <ResizablePanel
         defaultSize={70}
-        minSize={70}
+        minSize={30}
         className="min-h-0 w-full lg:h-[calc(100dvh-60px)]"
       >
         <HelperHeader />

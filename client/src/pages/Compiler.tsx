@@ -47,7 +47,6 @@ function Compiler() {
       <ResizablePanel
         defaultSize={30}
         minSize={30}
-        maxSize={30}
         className="min-h-0 w-full lg:h-[calc(100dvh-60px)]"
       >
         <RenderCode />
